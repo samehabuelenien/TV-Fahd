@@ -958,33 +958,9 @@ next.addEventListener('click',()=>scroller.scrollBy({left:-page(),behavior:'smoo
   updateBtns();
 })();
 </script>
-<script>
-(function(){
-  // هات البارامترات من الإعلان (landing page URL)
-  var params = window.location.search;
-  if (!params) return;
-
-  // دور على كل الأزرار اللي فيها data-url
-  document.querySelectorAll('button[data-url]').forEach(function(btn){
-    btn.addEventListener('click', function(){
-      var baseUrl = btn.getAttribute('data-url');
-      var url = new URL(baseUrl);
-
-      // لو فيه بارامترات بالفعل
-      if (url.search) {
-        url.search += '&' + params.replace('?', '');
-      } else {
-        url.search = params;
-      }
-
-      // إعادة التوجيه مع البارامترات
-      window.location.href = url.toString();
-    });
-  });
-})();
-</script>
 </body>
 </html>
+
 
 
 
