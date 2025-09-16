@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html>	
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -391,7 +391,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     
 
 </ul>
-        <button data-url="https://crunsh5.com/%D8%A8%D8%A7%D9%82%D8%A9-%D9%83%D8%B1%D8%A7%D9%86%D8%B4-%D9%84%D8%A7%D9%8A%D8%AA---%D8%B3%D9%86%D8%A9/p512729773" class="w-full py-2 md:py-3 rounded-xl font-extrabold text-[12px] md:text-base text-gray-900 data-redirect>"
+        <button data-url="https://crunsh5.com/%D8%A8%D8%A7%D9%82%D8%A9-%D9%83%D8%B1%D8%A7%D9%86%D8%B4-%D9%84%D8%A7%D9%8A%D8%AA---%D8%B3%D9%86%D8%A9/p512729773" class="w-full py-2 md:py-3 rounded-xl font-extrabold text-[12px] md:text-base text-gray-900"
           style="background:#f97316;box-shadow:0 6px 16px rgba(249,115,22,.35)">
           اشترك الآن
         </button>
@@ -429,7 +429,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <li class="flex items-start"><i class="fas fa-check ml-2" style="color:#50C878;"></i>ضمان كامل مدة الأشتراك ضد اي تقطيع</li></ul></div></li>
 
 </ul>
-        <button data-url="https://crunsh5.com/%D8%A7%D8%B4%D8%AA%D8%B1%D8%A7%D9%83-%D8%B3%D9%85%D8%A7%D8%B1%D8%AA%D8%B2-%D8%B3%D9%86%D8%A9/p177475231" class="w-full py-2 md:py-3 rounded-xl font-extrabold text-[12px] md:text-base text-gray-900 data-redirect>"
+        <button data-url="https://crunsh5.com/%D8%A7%D8%B4%D8%AA%D8%B1%D8%A7%D9%83-%D8%B3%D9%85%D8%A7%D8%B1%D8%AA%D8%B2-%D8%B3%D9%86%D8%A9/p177475231" class="w-full py-2 md:py-3 rounded-xl font-extrabold text-[12px] md:text-base text-gray-900"
           style="background:#f97316;box-shadow:0 6px 16px rgba(249,115,22,.35)">
           اشترك الآن
         </button>
@@ -467,7 +467,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <li class="flex items-start"><i class="fas fa-check ml-2" style="color:#50C878;"></i>ضمان كامل مدة الأشتراك ضد اي تقطيع</li></ul></div></li>
 
 </ul>
-        <button data-url="https://crunsh5.com/%D9%87%D9%88%D9%84%D9%83-%D8%B3%D9%86%D8%A9/p1637367705" class="w-full py-2 md:py-3 rounded-xl font-extrabold text-[12px] md:text-base text-gray-900 data-redirect>"
+        <button data-url="https://crunsh5.com/%D9%87%D9%88%D9%84%D9%83-%D8%B3%D9%86%D8%A9/p1637367705" class="w-full py-2 md:py-3 rounded-xl font-extrabold text-[12px] md:text-base text-gray-900"
           style="background:#f97316;box-shadow:0 6px 16px rgba(249,115,22,.35)">
           أنضم للباقة الأحترافية
         </button>
@@ -960,60 +960,34 @@ next.addEventListener('click',()=>scroller.scrollBy({left:-page(),behavior:'smoo
 </script>
 <script>
 (function(){
-  var allow = ['gclid','gbraid','wbraid','utm_source','utm_medium','utm_campaign','utm_term','utm_content','utm_id','yclid','ttclid','fbclid'];
+  // البارامترات من الرابط الأصلي (الإعلان)
+  var params = window.location.search;
 
-  // 1) التقط من عنوان صفحة الهبوط وخزّنها
-  var src = new URL(window.location.href);
-  var incoming = new URLSearchParams(src.search);
-  allow.forEach(function(k){
-    var v = incoming.get(k);
-    if (v) { sessionStorage.setItem(k, v); localStorage.setItem(k, v); }
-  });
+  // ندور على كل الأزرار اللي فيها data-url
+  var buttons = document.querySelectorAll('button[data-url]');
 
-  function withParams(href){
-    try{
-      var url = new URL(href, window.location.origin);
-      var qs = new URLSearchParams(url.search);
-      allow.forEach(function(k){
-        var v = sessionStorage.getItem(k) || localStorage.getItem(k);
-        if (v && !qs.has(k)) qs.set(k, v);
-      });
-      url.search = qs.toString();
-      return url.toString();
-    }catch(e){ return href; }
-  }
+  buttons.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var baseUrl = btn.getAttribute('data-url'); // الرابط الأصلي
+      var url = new URL(baseUrl);
 
-  function patch(el){
-    if (el.tagName === 'A' && el.hasAttribute('data-redirect')) {
-      el.href = withParams(el.href);
-    } else if (el.tagName === 'FORM' && el.hasAttribute('data-redirect')) {
-      el.addEventListener('submit', function(){
-        var action = el.getAttribute('action') || '';
-        el.setAttribute('action', withParams(action));
-      });
-    } else if (el.tagName === 'BUTTON' && el.dataset.href) {
-      el.addEventListener('click', function(){
-        window.location.href = withParams(el.dataset.href);
-      });
-    }
-  }
+      // لو فيه بارامترات في الرابط الأصلي
+      if (url.search) {
+        url.search += '&' + params.replace('?', '');
+      } else {
+        url.search = params;
+      }
 
-  // طبّق على العناصر الحالية
-  document.querySelectorAll('[data-redirect]').forEach(patch);
-
-  // وراقب أي عناصر بتُضاف ديناميكياً (لو الصفحة فيها JS يضيف عناصر بعد التحميل)
-  new MutationObserver(function(muts){
-    muts.forEach(function(m){
-      m.addedNodes.forEach(function(n){
-        if (n.nodeType===1 && n.matches && n.matches('[data-redirect]')) patch(n);
-      });
+      // إعادة التوجيه للمتجر
+      window.location.href = url.toString();
     });
-  }).observe(document.documentElement, {childList:true, subtree:true});
+  });
 })();
 </script>
 
 </body>
 </html>
+
 
 
 
