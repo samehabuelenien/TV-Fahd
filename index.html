@@ -960,33 +960,32 @@ next.addEventListener('click',()=>scroller.scrollBy({left:-page(),behavior:'smoo
 </script>
 <script>
 (function(){
-  // البارامترات من الرابط الأصلي (الإعلان)
+  // هات البارامترات من الإعلان (landing page URL)
   var params = window.location.search;
+  if (!params) return;
 
-  // ندور على كل الأزرار اللي فيها data-url
-  var buttons = document.querySelectorAll('button[data-url]');
-
-  buttons.forEach(function(btn){
+  // دور على كل الأزرار اللي فيها data-url
+  document.querySelectorAll('button[data-url]').forEach(function(btn){
     btn.addEventListener('click', function(){
-      var baseUrl = btn.getAttribute('data-url'); // الرابط الأصلي
+      var baseUrl = btn.getAttribute('data-url');
       var url = new URL(baseUrl);
 
-      // لو فيه بارامترات في الرابط الأصلي
+      // لو فيه بارامترات بالفعل
       if (url.search) {
         url.search += '&' + params.replace('?', '');
       } else {
         url.search = params;
       }
 
-      // إعادة التوجيه للمتجر
+      // إعادة التوجيه مع البارامترات
       window.location.href = url.toString();
     });
   });
 })();
 </script>
-
 </body>
 </html>
+
 
 
 
